@@ -242,6 +242,50 @@ ngx_http_lua_ffi_disable_http2_alpn(ngx_http_request_t *r, char **err)
     return NGX_OK;
 }
 
+
+int
+ngx_http_lua_kong_ffi_set_upstream_ssl_sans(ngx_http_request_t *r,
+    const char *input, size_t input_len)
+{
+    u_char                      *sans_data;
+    ngx_http_lua_kong_ctx_t     *ctx;
+
+    ctx = ngx_http_lua_kong_get_module_ctx(r);
+    if (ctx == NULL) {
+        return NGX_ERROR;
+    }
+
+    sans_data = ngx_palloc(r->pool, input_len);
+    if (sans_data == NULL) {
+        return NGX_ERROR;
+    }
+
+    ngx_memcpy(sans_data, input, input_len);
+
+    ctx->ssl_ctx.upstream_ssl_sans.data = sans_data;
+    ctx->ssl_ctx.upstream_ssl_sans.len = input_len;
+
+    return NGX_OK;
+}
+
+
+ngx_str_t *
+ngx_http_lua_kong_ssl_get_upstream_ssl_sans(ngx_http_request_t *r)
+{
+    ngx_http_lua_kong_ctx_t     *ctx;
+
+    ctx = ngx_http_lua_kong_get_module_ctx(r);
+    if (ctx == NULL) {
+        return NULL;
+    }
+
+    if (ctx->ssl_ctx.upstream_ssl_sans.len == 0) {
+        return NULL;
+    }
+
+    return &ctx->ssl_ctx.upstream_ssl_sans;
+}
+
 #endif
 
 

@@ -24,6 +24,7 @@ typedef struct {
     EVP_PKEY           *upstream_client_private_key;
     X509_STORE         *upstream_trusted_store;
     ngx_uint_t          upstream_ssl_verify_depth;
+    ngx_str_t           upstream_ssl_sans;
     unsigned            upstream_ssl_verify:1;
     unsigned            upstream_ssl_verify_set:1;
     unsigned            upstream_ssl_verify_depth_set:1;
