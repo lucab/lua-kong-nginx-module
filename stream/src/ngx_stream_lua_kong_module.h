@@ -33,7 +33,10 @@ ngx_stream_lua_kong_get_upstream_ssl_verify(ngx_stream_session_t *s,
     ngx_flag_t proxy_ssl_verify);
 
 ngx_str_t *
-ngx_stream_lua_kong_get_upstream_ssl_sans(ngx_stream_session_t *s);
+ngx_stream_lua_kong_get_upstream_ssl_sans_dnsnames(ngx_stream_session_t *s);
+
+ngx_str_t *
+ngx_stream_lua_kong_get_upstream_ssl_sans_uris(ngx_stream_session_t *s);
 
 #endif
 
